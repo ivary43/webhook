@@ -35,27 +35,17 @@ app.post("/", (req, res)=> {
     //     "type": 1
     //   }));
 
-      res.send(JSON.stringify({"fulfillmentMessages": [
-        {
-          "buttons": [
-            {
-              "openUrlAction": {
-                "url": "https://linkUrl.com"
-              },
-              "title": "AoG Card Link title"
-            }
-          ],
-          "formattedText": "AoG Card Description",
-          "image": {
-            "url": "http://imageUrl.com",
-            "accessibilityText": "Image description for screen readers"
-          },
-          "platform": "google",
-          "subtitle": "AoG Card Subtitle",
-          "title": "AoG Card Title",
-          "type": "basic_card"
+        var triggering_event = req.body.intent.displayName;
+        if(triggering_event === "product_query") {
+            var item = req.body.queryResult.parameters.item ;
+            res.send(JSON.stringify({"fulfillmentMessage": `These are some ${item} -\n 
+                                                            1. Trimax ₹25 \n 
+                                                            2. Parker ₹599 \n 
+                                                            3. Xander ₹110`}));   
         }
-      ]}));
+
+
+      
 }) 
 
 //server setup

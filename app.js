@@ -3,6 +3,7 @@ const body_parser = require('body-parser');
 const logger = require('morgan');
 const listenPort = process.env.PORT  || 3000 ;
 //var ps = require('python-shell');
+var _ = require('lodash');
 
 let app = express();
 app.use(body_parser.urlencoded({extended: false}));
@@ -39,11 +40,11 @@ app.post("/", (req, res)=> {
         var triggering_event = req.body.queryResult.intent.displayName;
         console.log(req.body.queryResult.outputContexts[0]);
         
-        var data = [{"name": "Trimax","price": "₹25", "ratings": "4.2"}, 
-                    {"name": "Parker","price": "₹599", "ratings": "4.8"},
-                    {"name": "Xander","price": "₹110", "ratings": "3.2"}, 
-                    {"name": "Wesley", "price": "₹295", "ratings": "3.7"},
-                    {"name": "Classmate Gel", "price": "₹8", "ratings": "3.9"}];
+        var data = [{"name": "Trimax","price": "25", "ratings": "4.2"}, 
+                    {"name": "Parker","price": "599", "ratings": "4.8"},
+                    {"name": "Xander","price": "110", "ratings": "3.2"}, 
+                    {"name": "Wesley", "price": "295", "ratings": "3.7"},
+                    {"name": "Classmate Gel", "price": "8", "ratings": "3.9"}];
 
 
 
@@ -51,7 +52,7 @@ app.post("/", (req, res)=> {
             var item = req.body.queryResult.parameters.item ;
             var response_string = `These are some ${item} -`;
             for (let index = 0; index < data.length-2; index++) {
-                response_string =response_string+ (index+1)+ data[index].name +" "+ data[index].price+" "+data[index].ratings+",";
+                response_string =response_string+ (index+1)+ data[index].name +"  ₹"+ data[index].price+" "+data[index].ratings+",";
             }
             
             res.send(JSON.stringify({"fulfillmentText": response_string}));   
@@ -61,42 +62,49 @@ app.post("/", (req, res)=> {
            var more_item = req.body.queryResult.outputContexts[1].parameters.item ;
         var response_string = `These are some ${more_item} -`;
         for (let index = 3; index < data.length; index++) {
-            response_string =response_string+ (index+1)+ data[index].name +" "+ data[index].price+" "+data[index].ratings+",";
+            response_string =response_string+ (index+1)+ data[index].name +"  ₹"+ data[index].price+" "+data[index].ratings+",";
         }
          res.send(JSON.stringify({"fulfillmentText": response_string})); 
        } else if (triggering_event === "price_query") {
-        var response_string = `These are some ${item} -`;
+        var response_string = `These are left outs -`;
             var lower_limit = req.body.queryResult.parameters.number ;
             var upper_limit = req.body.queryResult.parameters.number1 ;
 
             
             if(lower_limit && !upper_limit) {
+                console.log("1");
                 var temp_res = data.filter((elem)=> {
-                     return elem.price > lower_limit;   
+                     return Number(elem.price) > lower_limit;   
                 });
                 for (let index = 0; index < temp_res.length; index++) {
                     response_string =response_string+ (index+1)+ temp_res[index].name +" "+ temp_res[index].price+" "+temp_res[index].ratings+",";
                 }    
+                
+                
                 res.send(JSON.stringify({"fulfillmentText": response_string})); 
-            } else if (!lower_limit && upper_limit) {  
+            } else if (!lower_limit && upper_limit) { 
                 var temp_res = data.filter((elem)=> {
-                    return elem.price < upper_limit;   
+                     return Number(elem.price) < upper_limit;
                });
-
+            
+               console.log(temp_res); 
                for (let index = 0; index < temp_res.length; index++) {
                 response_string =response_string+ (index+1)+ temp_res[index].name +" "+ temp_res[index].price+" "+temp_res[index].ratings+",";
             }    
             res.send(JSON.stringify({"fulfillmentText": response_string})); 
 
             } else if (!lower_limit && upper_limit) {
+                console.log("3");
                 var temp_res = data.filter( (elem)=> {
-                    return elem.price > lower_limit && elem.price < upper_limit
+                    return (Number(elem.price) > lower_limit && Number(elem.price) < upper_limit);
                 })
 
                 for (let index = 0; index < temp_res.length; index++) {
                     response_string =response_string+ (index+1)+ temp_res[index].name +" "+ temp_res[index].price+" "+temp_res[index].ratings+",";
                 }    
                 res.send(JSON.stringify({"fulfillmentText": response_string})); 
+            } else {
+                res.send(JSON.stringify({"fulfillmentText": "Sorry, I didn't get that"}))
             }
        }
 

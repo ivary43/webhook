@@ -50,7 +50,7 @@ app.post("/", (req, res)=> {
 
         if(triggering_event === "product_query") { 
             var item = req.body.queryResult.parameters.item ;
-            var response_string = `These are some ${item}s \n`;
+            var response_string = `These are some ${item}s     `;
             response_string = response_string.replace(/\\n/g, '\n');
             for (let index = 0; index < data.length-2; index++) {
                 response_string =response_string+ (index+1)+ data[index].name +"  ₹"+ data[index].price+" "+data[index].ratings+",";
@@ -61,7 +61,7 @@ app.post("/", (req, res)=> {
            
            console.log(req.body.queryResult.outputContexts[1].parameters.item );
            var more_item = req.body.queryResult.outputContexts[1].parameters.item ;
-        var response_string = `These are some ${more_item} -`;
+        var response_string = `These are some ${more_item}s -`;
         for (let index = 3; index < data.length; index++) {
             response_string =response_string+ (index+1)+ data[index].name +"  ₹"+ data[index].price+" "+data[index].ratings+",";
         }
@@ -78,7 +78,7 @@ app.post("/", (req, res)=> {
                      return Number(elem.price) > lower_limit;   
                 });
                 for (let index = 0; index < temp_res.length; index++) {
-                    response_string =response_string+ (index+1)+ temp_res[index].name +" "+ temp_res[index].price+" "+temp_res[index].ratings+",";
+                    response_string =response_string+ (index+1)+ temp_res[index].name +"  "+ temp_res[index].price+" "+temp_res[index].ratings+",";
                 }    
                 
                 

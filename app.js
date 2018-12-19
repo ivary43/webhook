@@ -70,7 +70,7 @@ app.post("/", (req, res)=> {
             var upper_limit = req.body.queryResult.parameters.number1 ;
 
             
-            if(lower_limit & !upper_limit) {
+            if(lower_limit && !upper_limit) {
                 var temp_res = data.filter((elem)=> {
                      return elem.price > lower_limit;   
                 });
@@ -78,7 +78,7 @@ app.post("/", (req, res)=> {
                     response_string =response_string+ (index+1)+ temp_res[index].name +" "+ temp_res[index].price+" "+temp_res[index].ratings+",";
                 }    
                 res.send(JSON.stringify({"fulfillmentText": response_string})); 
-            } else if (!lower_limit & upper_limit) {  
+            } else if (!lower_limit && upper_limit) {  
                 var temp_res = data.filter((elem)=> {
                     return elem.price < upper_limit;   
                });
@@ -88,7 +88,7 @@ app.post("/", (req, res)=> {
             }    
             res.send(JSON.stringify({"fulfillmentText": response_string})); 
 
-            } else if (!lower_limit & upper_limit) {
+            } else if (!lower_limit && upper_limit) {
                 var temp_res = data.filter( (elem)=> {
                     return elem.price > lower_limit && elem.price < upper_limit
                 })

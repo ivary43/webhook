@@ -35,7 +35,7 @@ app.post("/", (req, res)=> {
     //     "type": 1
     //   }));
 
-      res.send(JSON.stringify({"fulfillmentMessage": {
+      res.send(JSON.stringify({"fulfillmentMessages": {
         "speech": "Text response",
         "type": 0
       }}));

@@ -35,10 +35,10 @@ app.post("/", (req, res)=> {
     //     "type": 1
     //   }));
 
-      res.send(JSON.stringify({"fulfillmentMessages": {
+      res.send(JSON.stringify({"fulfillmentMessages": [{
         "speech": "Text response",
         "type": 0
-      }}));
+      }]}));
 }) 
 
 //server setup

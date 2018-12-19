@@ -35,14 +35,14 @@ app.post("/", (req, res)=> {
     //     "type": 1
     //   }));
 
-        // var triggering_event = req.body.intent.displayName;
-        // if(triggering_event === "product_query") {
-             var item = req.body.queryResult.parameters.item ;
+        var triggering_event = req.body.intent.displayName;
+        var item = req.body.queryResult.parameters.item ;
+        if(triggering_event === "product_query") {         
             res.send(JSON.stringify({"fulfillmentText": `These are some ${item} -\n 
                                                             1.Trimax ₹25, 
                                                             2.Parker ₹599, 
                                                             3.Xander ₹110 `}));   
-       // }
+       }
 
 
       

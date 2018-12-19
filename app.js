@@ -54,7 +54,7 @@ app.post("/", (req, res)=> {
             
             res.send(JSON.stringify({"fulfillmentText": response_string}));   
        } else if (triggering_event === "more_products_intent") {
-           var more_item = req.body.queryResult.outputContexts.parameters.item ;
+           var more_item = req.body.queryResult.outputContexts[0].parameters.item ;
         var response_string = `These are some ${more_item} -`;
         for (let index = 3; index < data.length; index++) {
             response_string =response_string+ (index+1)+ data[index].name +" "+ data[index].price+" "+data[index].ratings+",";

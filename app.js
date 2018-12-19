@@ -37,16 +37,68 @@ app.post("/", (req, res)=> {
 
         var triggering_event = req.body.intent.displayName;
         var item = req.body.queryResult.parameters.item ;
-        if(triggering_event === "product_query") {         
-            res.send(JSON.stringify({"fulfillmentText": `These are some ${item} -\n 
-                                                            1.Trimax ₹25, 
-                                                            2.Parker ₹599, 
-                                                            3.Xander ₹110 `}));   
+        var data = [{"name": "Trimax","price": "₹25", "ratings": "4.2"}, 
+                    {"name": "Parker","price": "₹599", "ratings": "4.8"},
+                    {"name": "Xander","price": "₹110", "ratings": "3.2"}, 
+                    {"name": "Wesley", "price": "₹295", "ratings": "3.7"},
+                    {"name": "Classmate Gel", "price": "₹8", "ratings": "3.9"}];
+
+
+
+        if(triggering_event === "product_query") { 
+            var response_string = `These are some ${item} -`;
+            for (let index = 0; index < data.length-2; index++) {
+                response_string =response_string+ (index+1)+ data[index].name +" "+ data[index].price+" "+data[index].ratings+",";
+            }
+            
+            res.send(JSON.stringify({"fulfillmentText": response_string}));   
+       } else if (triggering_event === "more_products_intent") {
+        var response_string = `These are some ${item} -`;
+        for (let index = 3; index < data.length; index++) {
+            response_string =response_string+ (index+1)+ data[index].name +" "+ data[index].price+" "+data[index].ratings+",";
+        }
+         res.send(JSON.stringify({"fulfillmentText": response_string})); 
+       } else if (triggering_event === "price_query") {
+        var response_string = `These are some ${item} -`;
+            var lower_limit = req.body.queryResult.parameters.number ;
+            var upper_limit = req.body.queryResult.parameters.number1 ;
+
+            
+            if(lower_limit & !upper_limit) {
+                var temp_res = data.filter((elem)=> {
+                     return elem.price > lower_limit;   
+                });
+                for (let index = 0; index < temp_res.length; index++) {
+                    response_string =response_string+ (index+1)+ temp_res[index].name +" "+ temp_res[index].price+" "+temp_res[index].ratings+",";
+                }    
+                res.send(JSON.stringify({"fulfillmentText": response_string})); 
+            } else if (!lower_limit & upper_limit) {  
+                var temp_res = data.filter((elem)=> {
+                    return elem.price < upper_limit;   
+               });
+
+               for (let index = 0; index < temp_res.length; index++) {
+                response_string =response_string+ (index+1)+ temp_res[index].name +" "+ temp_res[index].price+" "+temp_res[index].ratings+",";
+            }    
+            res.send(JSON.stringify({"fulfillmentText": response_string})); 
+
+            } else if (!lower_limit & upper_limit) {
+                var temp_res = data.filter( (elem)=> {
+                    return elem.price > lower_limit && elem.price < upper_limit
+                })
+
+                for (let index = 0; index < temp_res.length; index++) {
+                    response_string =response_string+ (index+1)+ temp_res[index].name +" "+ temp_res[index].price+" "+temp_res[index].ratings+",";
+                }    
+                res.send(JSON.stringify({"fulfillmentText": response_string})); 
+            }
        }
 
 
       
 }) 
+
+
 
 //server setup
 app.listen(listenPort, ()=>{

@@ -4,7 +4,7 @@ const logger = require('morgan');
 const listenPort = process.env.PORT  || 3000 ;
 //var ps = require('python-shell');
 var _ = require('lodash');
-
+var request = require('request');
 let app = express();
 app.use(body_parser.urlencoded({extended: false}));
 app.use(body_parser.json());
@@ -35,17 +35,22 @@ app.post("/", (req, res)=> {
     //     "title": "Card Title",
     //     "type": 1
     //   }));
-
+    
     // console.log(req.body);
         var triggering_event = req.body.queryResult.intent.displayName;
         console.log(req.body.queryResult.outputContexts[0]);
-        
-        var data = [{"name": "Trimax","price": "25", "ratings": "4.2"}, 
+
+/*        var data = [{"name": "Trimax","price": "25", "ratings": "4.2"}, 
                     {"name": "Parker","price": "599", "ratings": "4.8"},
                     {"name": "Xander","price": "110", "ratings": "3.2"}, 
                     {"name": "Wesley", "price": "295", "ratings": "3.7"},
                     {"name": "Classmate Gel", "price": "8", "ratings": "3.9"}];
-
+*/
+        request('https://apiurlforproducts', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var data = body;        
+             }
+        })
 
 
         if(triggering_event === "product_query") { 

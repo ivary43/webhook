@@ -50,7 +50,7 @@ app.post("/", (req, res)=> {
 
         if(triggering_event === "product_query") { 
             var item = req.body.queryResult.parameters.item ;
-            var response_string = `These are some ${item}s \n <br>`;
+            var response_string = `These are some ${item}s \n`;
             response_string = response_string.replace(/\\n/g, '\n');
             for (let index = 0; index < data.length-2; index++) {
                 response_string =response_string+ (index+1)+ data[index].name +"  ₹"+ data[index].price+" "+data[index].ratings+",";

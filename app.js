@@ -35,10 +35,27 @@ app.post("/", (req, res)=> {
     //     "type": 1
     //   }));
 
-      res.send(JSON.stringify({"fulfillmentMessages": [{
-        "speech": "Text response",
-        "type": 0
-      }]}));
+      res.send(JSON.stringify({"fulfillmentMessages": [
+        {
+          "buttons": [
+            {
+              "openUrlAction": {
+                "url": "https://linkUrl.com"
+              },
+              "title": "AoG Card Link title"
+            }
+          ],
+          "formattedText": "AoG Card Description",
+          "image": {
+            "url": "http://imageUrl.com",
+            "accessibilityText": "Image description for screen readers"
+          },
+          "platform": "google",
+          "subtitle": "AoG Card Subtitle",
+          "title": "AoG Card Title",
+          "type": "basic_card"
+        }
+      ]}));
 }) 
 
 //server setup

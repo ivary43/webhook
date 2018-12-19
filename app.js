@@ -38,7 +38,7 @@ app.post("/", (req, res)=> {
         // var triggering_event = req.body.intent.displayName;
         // if(triggering_event === "product_query") {
         //     var item = req.body.queryResult.parameters.item ;
-            res.send(JSON.stringify({"fulfillmentMessage": `These are some ${item} -\n 
+            res.send(JSON.stringify({"fulfillmentMessage": `These are some items -\n 
                                                             1. Trimax ₹25 \n 
                                                             2. Parker ₹599 \n 
                                                             3. Xander ₹110`}));   

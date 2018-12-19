@@ -35,7 +35,7 @@ app.post("/", (req, res)=> {
     //     "type": 1
     //   }));
 
-      res.send(JSON.stringify({"fulfillmentText": chat}));
+      res.send(JSON.stringify({"fulfillmentText": "datahere"}));
 }) 
 
 //server setup
